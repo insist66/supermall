@@ -1,8 +1,8 @@
 <template>
-  <div class="swiper">
+  <div class="swiper-content">
     <swiper ref="mySwiper" :options="swiperOptionsObject">
       <swiper-slide class="swiper-image" v-for="(item,index) in banners" :key="index">
-        <img :src="item.image" alt="">
+        <img :src="item.image" alt="" @load="imgLoad">
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
       <div class="swiper-button-prev" slot="button-prev"></div>
@@ -13,7 +13,7 @@
 
 <script>
 import 'swiper/swiper-bundle.css';
-import { Swiper, SwiperSlide     } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 export default {
   name: 'HomeSwiper',
@@ -30,10 +30,19 @@ export default {
     return {
       swiperOptionsObject: {
         pagination: '.swiper-pagination', //与slot="pagination"处 class 一致
-        loop: true,
+        loop: true, //无限滑动
         autoplay: {
           delay: 1000, //自动切换的时间间隔，单位ms
         }, 
+        isLoad: false,
+      }
+    }
+  },
+  methods: {
+    imgLoad() {
+      if(!this.isLoad) { // 判断后只会拿到一次的值
+        this.$emit('swiperImgLoad');
+        this.isLoad = true;
       }
     }
   }
@@ -41,7 +50,7 @@ export default {
 </script>
 
 <style>
-.swiper {
+.swiper-content {
   height: 200px;
   width: 100%;
 }

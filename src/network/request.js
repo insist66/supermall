@@ -18,7 +18,7 @@ export function request(config) { // function可以到处多个 用default就是
 
     // 2.2 添加响应拦截器
     instance.interceptors.response.use(res => {
-      console.log(res);
+      // console.log(res);
       return res.data;
     }, err => {
       console.log(err);
