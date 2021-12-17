@@ -24,6 +24,9 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo" class="detail-set-scroll" />
       <goods-list ref="recommend" :goods="recommendList"></goods-list>
     </scroll>
+    <detail-bottom-bar></detail-bottom-bar>
+
+    <back-top v-show="isShowBackTop" @click.native="bcakClick"></back-top>
   </div>
 </template>
 
@@ -41,6 +44,10 @@ import DetailShopInfo from "./childcomps/DetailShopInfo";
 import DetailGoodsInfo from "./childcomps/DetailGoodsInfo.vue";
 import DetailParamInfo from "./childcomps/DetailParamInfo";
 import DetailCommentInfo from "./childcomps/DetailCommentInfo";
+import DetailBottomBar from "./childcomps/DetailBottomBar.vue";
+
+import backTop from 'components/content/backTop/backTop';
+
 export default {
   name: 'Detail',
   components: {  
@@ -49,7 +56,10 @@ export default {
     DetailSwiper, 
     DetailBaseInfo,
     DetailShopInfo,
-    DetailGoodsInfo, DetailParamInfo, DetailCommentInfo, GoodsList},
+    DetailGoodsInfo,
+    DetailParamInfo, 
+    DetailCommentInfo,
+    GoodsList, DetailBottomBar, backTop},
   data() {
     return {
       iid: null,
@@ -64,6 +74,7 @@ export default {
       recommendList: [],
       themeTopYs: [0, 1000, 2000, 3000],
       scrollIndex: 0,
+      isShowBackTop: false, // 回到顶部的按钮
     }
   },
   created() {
@@ -152,8 +163,22 @@ export default {
       // console.log(this.themeTopYs);
     },
 
+    // 点击回到顶部
+    bcakClick() {
+      this.$refs.scroll.bcakClick(0,0); // 调用scroll的方法
+    },
+
     contentScroll(position) {
-      console.log(position);
+      // console.log(position);
+      if(position.y < -1000) {  
+        this.isShowBackTop = true;
+      }else {
+        this.isShowBackTop = false;
+      }
+      // this.isShowBackTop = -(position.y) > 1000
+
+      // 决定tabControl是否吸顶
+      this.isTabFixed = -(position.y) > this.tabOffsetTop
     }
   }
 }
@@ -191,6 +216,6 @@ export default {
 }
 
 .content {
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 55px);
 }
 </style>
