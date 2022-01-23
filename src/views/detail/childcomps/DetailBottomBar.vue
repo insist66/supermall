@@ -28,7 +28,7 @@
 export default {
   methods: {
     addToCart() {
-      this.$emit("addEvent");
+      this.$emit("addCart");
     }
   }
 };

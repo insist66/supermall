@@ -73,7 +73,7 @@ export default {
   },
 
   destroyed() {
-    console.log('home destroyed');
+    // console.log('home destroyed');
   },
 
   // 点击其他分类的时候回到原来的位置（不写bug出现的频率也很低）
@@ -86,9 +86,9 @@ export default {
   // },
   // 
 
-  mounted() {
-    console.log(this.$refs.tabControl2.$el.offsetTop);
-  },
+  // mounted() {
+  //   console.log(this.$refs.tabControl2.$el.offsetTop);
+  // },
 
   created() {
     // 请求多个数据
@@ -148,7 +148,7 @@ export default {
 
     swiperImgLoad() {
       this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
-      console.log(this.tabOffsetTop);
+      // console.log(this.tabOffsetTop);
     },
 
     /**

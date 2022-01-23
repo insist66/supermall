@@ -15,6 +15,8 @@
       </div>
     </nav-bar>
 
+    <!-- <div>{{ $store.state.cartList.length }}</div> -->
+
     <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" >
       <detail-swiper :topImages="topImages"></detail-swiper>
       <detail-base-info :goods="goods" />
@@ -24,7 +26,7 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo" class="detail-set-scroll" />
       <goods-list ref="recommend" :goods="recommendList"></goods-list>
     </scroll>
-    <detail-bottom-bar></detail-bottom-bar>
+    <detail-bottom-bar @addCart="addCart"></detail-bottom-bar>
 
     <back-top v-show="isShowBackTop" @click.native="bcakClick"></back-top>
   </div>
@@ -85,7 +87,6 @@ export default {
     
     // 根据iid请求的详情数据
     getDetail(this.iid).then(res => {
-      // console.log(res);
 
       const data = res.result;
       this.topImages = data.itemInfo.topImages;
@@ -109,7 +110,7 @@ export default {
     })
 
     getRecommend().then(res => {
-      console.log(res);
+      // console.log(res);
       this.recommendList = res.data.list;
     })
   },
@@ -179,6 +180,19 @@ export default {
 
       // 决定tabControl是否吸顶
       this.isTabFixed = -(position.y) > this.tabOffsetTop
+    },
+
+    addCart() {
+      // 或如购物车新增的信息
+      const product = {}
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.lowNowPrice;
+      product.iid = this.iid;
+
+      // 将商品添加到购物车里
+      this.$store.commit('addCart', product)
     }
   }
 }
